@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZAl-4J-8ND">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina6_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -14,20 +14,45 @@
             <objects>
                 <viewController storyboardIdentifier="StoryVC" id="BYZ-38-t0r" customClass="StoryVC" customModule="AVStoryBook" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjF-GF-vpB">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem systemItem="camera" id="qHl-MO-gJt">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="I03-u8-ia2"/>
+                                    <barButtonItem title="🔴" id="wmL-QQ-6z4"/>
+                                </items>
+                                <color key="barTintColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </toolbar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bCp-JR-YGW">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="bCp-JR-YGW" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="4Jn-2z-AJG"/>
+                            <constraint firstItem="PjF-GF-vpB" firstAttribute="top" secondItem="bCp-JR-YGW" secondAttribute="bottom" id="aKT-zL-M1T"/>
+                            <constraint firstItem="bCp-JR-YGW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hbw-db-7qo"/>
+                            <constraint firstItem="PjF-GF-vpB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mgB-Hm-Wqz"/>
+                            <constraint firstItem="bCp-JR-YGW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nsT-GZ-xBb"/>
+                            <constraint firstItem="PjF-GF-vpB" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="oQf-6z-s94"/>
+                            <constraint firstItem="PjF-GF-vpB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="rpd-iT-uAi"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1791" y="134"/>
+            <point key="canvasLocation" x="1789.8550724637682" y="133.92857142857142"/>
         </scene>
         <!--PageVC-->
         <scene sceneID="DuU-UP-veB">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="ZAl-4J-8ND" customClass="PageVC" customModule="AVStoryBook" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="none" id="ZAl-4J-8ND" customClass="PageVC" customModule="AVStoryBook" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wOs-Ah-3p5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="801" y="134"/>

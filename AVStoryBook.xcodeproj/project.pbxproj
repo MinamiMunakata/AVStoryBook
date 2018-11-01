@@ -13,6 +13,7 @@
 		D83DE28B218B59AC00271A0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D83DE28A218B59AC00271A0E /* Assets.xcassets */; };
 		D83DE28E218B59AC00271A0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D83DE28C218B59AC00271A0E /* LaunchScreen.storyboard */; };
 		D83DE296218B5A6300271A0E /* PageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DE295218B5A6300271A0E /* PageVC.swift */; };
+		D83DE299218B65B300271A0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83DE298218B65B300271A0E /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		D83DE28D218B59AC00271A0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D83DE28F218B59AC00271A0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D83DE295218B5A6300271A0E /* PageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageVC.swift; sourceTree = "<group>"; };
+		D83DE298218B65B300271A0E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D83DE299218B65B300271A0E /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +45,7 @@
 			children = (
 				D83DE282218B59AB00271A0E /* AVStoryBook */,
 				D83DE281218B59AB00271A0E /* Products */,
+				D83DE297218B65B300271A0E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,6 +69,14 @@
 				D83DE295218B5A6300271A0E /* PageVC.swift */,
 			);
 			path = AVStoryBook;
+			sourceTree = "<group>";
+		};
+		D83DE297218B65B300271A0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D83DE298218B65B300271A0E /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
