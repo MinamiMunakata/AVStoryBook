@@ -8,26 +8,23 @@
 
 import UIKit
 import CoreServices
+import MobileCoreServices
 
 class StoryVC: UIViewController {
   @IBOutlet weak var storyImageView: UIImageView!
   
-  @IBOutlet weak var cameraButton: UIBarButtonItem! {
-    didSet {
-      cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-    }
-  }
+  @IBOutlet weak var cameraButton: UIBarButtonItem! //{
+//    didSet {
+//      cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+//    }
+//  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // ActionSheet ->
   }
   
-  @IBAction func cameraButtonTapped(_ sender: UIBarButtonItem) {
-    print("camera")
-    // 1. create an instance of UIImagePickerController
-    let picker = UIImagePickerController()
-    
+  fileprivate func openCamera(_ picker: UIImagePickerController) {
     // 2. setup variables (configuration)
     picker.sourceType = .camera
     picker.mediaTypes = [kUTTypeImage as String]
@@ -36,6 +33,39 @@ class StoryVC: UIViewController {
     picker.delegate = self
     // 4. present the picker
     present(picker, animated: true, completion: nil)
+  }
+  
+  fileprivate func openLibrary(_ picker: UIImagePickerController) {
+    // 2. setup variables (configuration)
+    picker.sourceType = .photoLibrary
+    picker.mediaTypes = [kUTTypeImage as String]
+    picker.allowsEditing = true
+    // 3. to get the photo taken, we need to set the delegate of the picker to self
+    picker.delegate = self
+    // 4. present the picker
+    present(picker, animated: true, completion: nil)
+  }
+  
+  @IBAction func cameraButtonTapped(_ sender: UIBarButtonItem) {
+    // 1. create an instance of UIImagePickerController
+    let picker = UIImagePickerController()
+    
+    let alert: UIAlertController = UIAlertController(title: "Choose a photo", message: "from...", preferredStyle: .actionSheet)
+    let openCameraAction: UIAlertAction = UIAlertAction(title: "Open Camera", style: .default) { (action) in
+      self.openCamera(picker)
+    }
+    let openLibraryAction: UIAlertAction = UIAlertAction(title: "Open Library", style: .default) { (action) in
+      self.openLibrary(picker)
+    }
+    let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+      alert.dismiss(animated: true, completion: nil)
+    }
+    
+    alert.addAction(openCameraAction)
+    alert.addAction(openLibraryAction)
+    alert.addAction(cancelAction)
+    present(alert, animated: true, completion: nil)
+    
   }
   
   
