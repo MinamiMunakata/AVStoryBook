@@ -9,19 +9,91 @@
 import UIKit
 import CoreServices
 import MobileCoreServices
+import AVFoundation
 
 class StoryVC: UIViewController {
   @IBOutlet weak var storyImageView: UIImageView!
   
+  @IBOutlet weak var recordButton: UIBarButtonItem!
   @IBOutlet weak var cameraButton: UIBarButtonItem! //{
 //    didSet {
 //      cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
 //    }
 //  }
   
+  var audioRecorder: AVAudioRecorder?
+  var audioPlayer: AVAudioPlayer?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    // ActionSheet ->
+    // 1. file path + file name (uniqueRandomStringProcess_story.caf) caf = core audio file
+    let fileManager = FileManager.default
+    // home directory (only the user who download it can access
+    let dirPaths = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
+    let fileName = String(format: "%@_%@", ProcessInfo().globallyUniqueString, "story.caf")
+    // full path url: dir/dir/filename
+    let soundFileURL = dirPaths[0].appendingPathComponent(fileName)
+    // 2. configure record settings
+    let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue,
+                          AVEncoderBitRateKey: 16,
+                          AVNumberOfChannelsKey: 2,
+                          AVSampleRateKey: 44100.0] as [String: Any]
+    // 3. create a recorder object, prepareToRecord
+    do {
+      try audioRecorder = AVAudioRecorder(url: soundFileURL, settings: recordSettings as [String: AnyObject])
+      audioRecorder?.prepareToRecord()
+      audioRecorder?.delegate = self
+    } catch let error as NSError {
+      print("audioRecorder error: \(error.localizedDescription)")
+    }
+    
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    // 4. create an AudioSession and set the Category
+    let audioSession: AVAudioSession = AVAudioSession.sharedInstance()
+    do {
+      try audioSession.setCategory(.playAndRecord, mode: .default, policy: .default, options: .defaultToSpeaker)
+      try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+    } catch let error as NSError {
+      print("audioSession error: \(error.localizedDescription)")
+    }
+    
+  }
+  
+  @IBAction func recordButtonTapped(_ sender: UIBarButtonItem) {
+    //
+    if audioPlayer?.isPlaying == true {
+      audioPlayer?.stop()
+    }
+    if audioRecorder?.isRecording == false {
+      storyImageView.isUserInteractionEnabled = false
+      audioRecorder?.record()
+      recordButton.title = "🎙"
+    } else {
+      audioRecorder?.stop()
+      recordButton.title = "🔴"
+      storyImageView.isUserInteractionEnabled = true
+    }
+  }
+  
+  @IBAction func imageViewTapped(_ sender: UITapGestureRecognizer) {
+    if audioRecorder?.isRecording == false {
+      print("image is tapped!")
+      do {
+        try audioPlayer = AVAudioPlayer(contentsOf: (audioRecorder?.url)!)
+        recordButton.isEnabled = false
+        audioPlayer?.prepareToPlay()
+        audioPlayer?.play()
+        audioPlayer?.delegate = self
+//        recordButton.isEnabled = true // delegate
+      } catch let error as NSError {
+        print("audioPlayer error: \(error.localizedDescription)")
+      }
+    } else {
+      audioPlayer?.stop()
+    }
   }
   
   fileprivate func openCamera(_ picker: UIImagePickerController) {
@@ -69,6 +141,24 @@ class StoryVC: UIViewController {
   }
   
   
+}
+
+extension StoryVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+  func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+    recordButton.isEnabled = true
+  }
+  
+  func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+    print("audioRecorder Did Finish Recording")
+  }
+  
+  func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+    print("audioRecorder Encode Error Did Occur")
+  }
+  
+  func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+    print("audioPlayer Decode Error Did Occur")
+  }
 }
 
 extension StoryVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

@@ -45,5 +45,7 @@
   <string>This app will use camera</string>
   <key>NSPhotoLibraryUsageDescription</key>
   <string>You can select photo</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>This app will use microphone</string>
 </dict>
 </plist>
