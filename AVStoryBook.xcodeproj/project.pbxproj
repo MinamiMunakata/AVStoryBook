@@ -14,6 +14,7 @@
 		D83DE28E218B59AC00271A0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D83DE28C218B59AC00271A0E /* LaunchScreen.storyboard */; };
 		D83DE296218B5A6300271A0E /* PageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DE295218B5A6300271A0E /* PageVC.swift */; };
 		D83DE299218B65B300271A0E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83DE298218B65B300271A0E /* AVFoundation.framework */; };
+		D8EB43A12193E41C0074AF51 /* StoryBook.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D8EB439F2193E41C0074AF51 /* StoryBook.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		D83DE28F218B59AC00271A0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D83DE295218B5A6300271A0E /* PageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageVC.swift; sourceTree = "<group>"; };
 		D83DE298218B65B300271A0E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		D8EB43A02193E41C0074AF51 /* StoryBook.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StoryBook.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				D83DE28C218B59AC00271A0E /* LaunchScreen.storyboard */,
 				D83DE28F218B59AC00271A0E /* Info.plist */,
 				D83DE295218B5A6300271A0E /* PageVC.swift */,
+				D8EB439F2193E41C0074AF51 /* StoryBook.xcdatamodeld */,
 			);
 			path = AVStoryBook;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			files = (
 				D83DE286218B59AB00271A0E /* StoryVC.swift in Sources */,
 				D83DE296218B5A6300271A0E /* PageVC.swift in Sources */,
+				D8EB43A12193E41C0074AF51 /* StoryBook.xcdatamodeld in Sources */,
 				D83DE284218B59AB00271A0E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,6 +359,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D8EB439F2193E41C0074AF51 /* StoryBook.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D8EB43A02193E41C0074AF51 /* StoryBook.xcdatamodel */,
+			);
+			currentVersion = D8EB43A02193E41C0074AF51 /* StoryBook.xcdatamodel */;
+			path = StoryBook.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D83DE278218B59AB00271A0E /* Project object */;
 }
