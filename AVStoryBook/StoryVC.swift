@@ -10,8 +10,14 @@ import UIKit
 import CoreServices
 import MobileCoreServices
 import AVFoundation
+import CoreData
+
+protocol AddStoryVCDelegate: class {
+  func addStoryVC()
+}
 
 class StoryVC: UIViewController {
+  @IBOutlet weak var addButton: UIBarButtonItem!
   @IBOutlet weak var storyImageView: UIImageView!
   
   @IBOutlet weak var recordButton: UIBarButtonItem!
@@ -21,11 +27,23 @@ class StoryVC: UIViewController {
 //    }
 //  }
   
+  
   var audioRecorder: AVAudioRecorder?
   var audioPlayer: AVAudioPlayer?
+  weak var delegate: AddStoryVCDelegate?
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  var page: Page? {
+    didSet {
+      if let image = page?.image {
+        self.storyImageView.image = UIImage(data: Data(referencing: image))
+      }
+      if let audio = page?.audio {
+        try? audioPlayer = AVAudioPlayer(data: audio as Data)
+      }
+    }
+  }
+  
+  lazy var filePathURL: URL = {
     // 1. file path + file name (uniqueRandomStringProcess_story.caf) caf = core audio file
     let fileManager = FileManager.default
     // home directory (only the user who download it can access
@@ -33,6 +51,30 @@ class StoryVC: UIViewController {
     let fileName = String(format: "%@_%@", ProcessInfo().globallyUniqueString, "story.caf")
     // full path url: dir/dir/filename
     let soundFileURL = dirPaths[0].appendingPathComponent(fileName)
+    
+    return soundFileURL
+  }()
+  
+  private func save(withAudio audio: Data?, image: Data?) {
+    guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    let managedContext = appDelegate.persistentContainer.viewContext
+    let entity = NSEntityDescription.entity(forEntityName: "Page", in: managedContext)!
+    let newPage = NSManagedObject(entity: entity, insertInto: managedContext)
+    newPage.setValue(audio as NSData?, forKeyPath: "audio")
+    newPage.setValue(image as NSData?, forKeyPath: "image")
+    
+    do {
+      try managedContext.save()
+      page = newPage as? Page
+    } catch let error as NSError {
+      print("Could not save. \(error), \(error.userInfo)")
+    }
+    
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+
     // 2. configure record settings
     let recordSettings = [AVEncoderAudioQualityKey: AVAudioQuality.min.rawValue,
                           AVEncoderBitRateKey: 16,
@@ -40,7 +82,7 @@ class StoryVC: UIViewController {
                           AVSampleRateKey: 44100.0] as [String: Any]
     // 3. create a recorder object, prepareToRecord
     do {
-      try audioRecorder = AVAudioRecorder(url: soundFileURL, settings: recordSettings as [String: AnyObject])
+      try audioRecorder = AVAudioRecorder(url: filePathURL, settings: recordSettings as [String: AnyObject])
       audioRecorder?.prepareToRecord()
       audioRecorder?.delegate = self
     } catch let error as NSError {
@@ -60,6 +102,9 @@ class StoryVC: UIViewController {
       print("audioSession error: \(error.localizedDescription)")
     }
     
+  }
+  @IBAction func addButtonTapped(_ sender: UIBarButtonItem) {
+    delegate?.addStoryVC()
   }
   
   @IBAction func recordButtonTapped(_ sender: UIBarButtonItem) {
@@ -82,12 +127,16 @@ class StoryVC: UIViewController {
     if audioRecorder?.isRecording == false {
       print("image is tapped!")
       do {
-        try audioPlayer = AVAudioPlayer(contentsOf: (audioRecorder?.url)!)
+        if let page = page {
+          try audioPlayer = AVAudioPlayer(data: page.audio! as Data)
+        } else {
+          try audioPlayer = AVAudioPlayer(contentsOf: (audioRecorder?.url)!)
+        }
         recordButton.isEnabled = false
         audioPlayer?.prepareToPlay()
         audioPlayer?.play()
         audioPlayer?.delegate = self
-//        recordButton.isEnabled = true // delegate
+        recordButton.isEnabled = true // delegate
       } catch let error as NSError {
         print("audioPlayer error: \(error.localizedDescription)")
       }
@@ -150,10 +199,19 @@ extension StoryVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
   
   func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
     print("audioRecorder Did Finish Recording")
+    var audioTrack: Data?
+    do {
+      audioTrack = try Data(contentsOf: recorder.url)
+    } catch let error as NSError {
+      print("audioTrack error: \(error.localizedDescription)")
+    }
+    save(withAudio: audioTrack, image: storyImageView.image?.pngData())
   }
   
   func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
     print("audioRecorder Encode Error Did Occur")
+    
+    
   }
   
   func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {

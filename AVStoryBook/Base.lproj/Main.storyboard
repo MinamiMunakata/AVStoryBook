@@ -27,6 +27,12 @@
                                             <action selector="cameraButtonTapped:" destination="BYZ-38-t0r" id="wn5-Fb-PyF"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="2On-tW-Hw7"/>
+                                    <barButtonItem systemItem="add" id="3oi-XC-CZx">
+                                        <connections>
+                                            <action selector="addButtonTapped:" destination="BYZ-38-t0r" id="uK8-hM-UeU"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="I03-u8-ia2"/>
                                     <barButtonItem title="🔴" id="wmL-QQ-6z4">
                                         <connections>
@@ -57,6 +63,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="3oi-XC-CZx" id="eAw-ye-2UA"/>
                         <outlet property="cameraButton" destination="qHl-MO-gJt" id="k7C-Im-vi3"/>
                         <outlet property="recordButton" destination="wmL-QQ-6z4" id="hhj-Kn-S8H"/>
                         <outlet property="storyImageView" destination="bCp-JR-YGW" id="ToK-CJ-gfG"/>
